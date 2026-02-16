@@ -1,28 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print_type_c.c                                     :+:      :+:    :+:   */
+/*   ft_isalpha.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hwalee <hwalee@student.42gyeongsan.kr      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/30 13:56:06 by hwalee            #+#    #+#             */
-/*   Updated: 2026/01/30 13:56:14 by hwalee           ###   ########.fr       */
+/*   Created: 2025/10/01 13:50:54 by hwalee            #+#    #+#             */
+/*   Updated: 2025/11/08 14:58:18 by hwalee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "libft.h"
 
-void    print_type_c(format *tempFormat, va_list ap)
+int	ft_isalpha(int c)
 {
-    char c;
-
-    c = (char)va_arg(ap, int);
-
-    if (tempFormat->minus)
-    {
-        write(1, &c, 1);
-        tempFormat->width--;
-    }
-    while (tempFormat->width--)
-        write(1, " ", 1);
+	if ((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z'))
+		return (c);
+	return (0);
 }

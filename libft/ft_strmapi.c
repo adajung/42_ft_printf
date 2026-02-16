@@ -1,28 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print_type_c.c                                     :+:      :+:    :+:   */
+/*   ft_strmapi.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hwalee <hwalee@student.42gyeongsan.kr      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/30 13:56:06 by hwalee            #+#    #+#             */
-/*   Updated: 2026/01/30 13:56:14 by hwalee           ###   ########.fr       */
+/*   Created: 2025/11/07 13:20:07 by hwalee            #+#    #+#             */
+/*   Updated: 2025/11/12 18:29:34 by hwalee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "libft.h"
 
-void    print_type_c(format *tempFormat, va_list ap)
+char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
 {
-    char c;
+	size_t	i;
+	size_t	len;
+	char	*p;
 
-    c = (char)va_arg(ap, int);
-
-    if (tempFormat->minus)
-    {
-        write(1, &c, 1);
-        tempFormat->width--;
-    }
-    while (tempFormat->width--)
-        write(1, " ", 1);
+	len = ft_strlen(s);
+	p = (char *)malloc(len * sizeof(char) + 1);
+	if (p == NULL)
+		return (0);
+	i = 0;
+	while (s[i])
+	{
+		p[i] = f(i, s[i]);
+		i++;
+	}
+	p[i] = '\0';
+	return (p);
 }

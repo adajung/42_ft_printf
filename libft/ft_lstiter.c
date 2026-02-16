@@ -1,28 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print_type_c.c                                     :+:      :+:    :+:   */
+/*   ft_lstiter.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hwalee <hwalee@student.42gyeongsan.kr      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/30 13:56:06 by hwalee            #+#    #+#             */
-/*   Updated: 2026/01/30 13:56:14 by hwalee           ###   ########.fr       */
+/*   Created: 2025/11/07 16:30:40 by hwalee            #+#    #+#             */
+/*   Updated: 2025/11/09 16:17:21 by hwalee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "libft.h"
 
-void    print_type_c(format *tempFormat, va_list ap)
+void	ft_lstiter(t_list *lst, void (*f)(void *))
 {
-    char c;
-
-    c = (char)va_arg(ap, int);
-
-    if (tempFormat->minus)
-    {
-        write(1, &c, 1);
-        tempFormat->width--;
-    }
-    while (tempFormat->width--)
-        write(1, " ", 1);
+	while (lst != NULL)
+	{
+		f(lst->content);
+		lst = lst->next;
+	}
+	return ;
 }

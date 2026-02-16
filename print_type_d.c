@@ -14,8 +14,15 @@
 
 void    print_type_d(format *tempFormat, va_list ap)
 {
-    int i;
+    char c;
 
-    i = va_arg(ap, int);
-    
+    c = (char)va_arg(ap, int);
+
+    if (tempFormat->minus)
+    {
+        write(1, &c, 1);
+        tempFormat->width--;
+    }
+    while (tempFormat->width--)
+        write(1, " ", 1);
 }

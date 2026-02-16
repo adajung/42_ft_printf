@@ -1,28 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print_type_c.c                                     :+:      :+:    :+:   */
+/*   ft_isascii.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hwalee <hwalee@student.42gyeongsan.kr      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/30 13:56:06 by hwalee            #+#    #+#             */
-/*   Updated: 2026/01/30 13:56:14 by hwalee           ###   ########.fr       */
+/*   Created: 2025/10/01 14:19:17 by hwalee            #+#    #+#             */
+/*   Updated: 2025/11/08 15:32:51 by hwalee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "libft.h"
 
-void    print_type_c(format *tempFormat, va_list ap)
+int	ft_isascii(int c)
 {
-    char c;
-
-    c = (char)va_arg(ap, int);
-
-    if (tempFormat->minus)
-    {
-        write(1, &c, 1);
-        tempFormat->width--;
-    }
-    while (tempFormat->width--)
-        write(1, " ", 1);
+	if (c >= 0 && c <= 127)
+		return (1);
+	return (0);
 }

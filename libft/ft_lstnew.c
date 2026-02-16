@@ -1,28 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print_type_c.c                                     :+:      :+:    :+:   */
+/*   ft_lstnew.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hwalee <hwalee@student.42gyeongsan.kr      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/30 13:56:06 by hwalee            #+#    #+#             */
-/*   Updated: 2026/01/30 13:56:14 by hwalee           ###   ########.fr       */
+/*   Created: 2025/11/07 15:10:03 by hwalee            #+#    #+#             */
+/*   Updated: 2025/11/14 14:33:24 by hwalee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "libft.h"
 
-void    print_type_c(format *tempFormat, va_list ap)
+t_list	*ft_lstnew(void *content)
 {
-    char c;
+	t_list	*p;
 
-    c = (char)va_arg(ap, int);
-
-    if (tempFormat->minus)
-    {
-        write(1, &c, 1);
-        tempFormat->width--;
-    }
-    while (tempFormat->width--)
-        write(1, " ", 1);
+	p = (t_list *)malloc(sizeof(t_list));
+	if (p == NULL)
+		return (0);
+	p->content = content;
+	p->next = NULL;
+	return (p);
 }

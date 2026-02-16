@@ -1,28 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print_type_c.c                                     :+:      :+:    :+:   */
+/*   ft_strchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hwalee <hwalee@student.42gyeongsan.kr      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/30 13:56:06 by hwalee            #+#    #+#             */
-/*   Updated: 2026/01/30 13:56:14 by hwalee           ###   ########.fr       */
+/*   Created: 2025/10/29 17:23:01 by hwalee            #+#    #+#             */
+/*   Updated: 2025/11/12 15:52:31 by hwalee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "libft.h"
 
-void    print_type_c(format *tempFormat, va_list ap)
+char	*ft_strchr(const char *s, int c)
 {
-    char c;
+	size_t			i;
+	unsigned char	unsigned_c;
 
-    c = (char)va_arg(ap, int);
-
-    if (tempFormat->minus)
-    {
-        write(1, &c, 1);
-        tempFormat->width--;
-    }
-    while (tempFormat->width--)
-        write(1, " ", 1);
+	i = 0;
+	unsigned_c = (unsigned char)c;
+	while (s[i])
+	{
+		if (s[i] == unsigned_c)
+			return ((char *)(s + i));
+		i++;
+	}
+	if (unsigned_c == '\0')
+		return ((char *)(s + i));
+	return (0);
 }

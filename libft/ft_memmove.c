@@ -1,28 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print_type_c.c                                     :+:      :+:    :+:   */
+/*   ft_memmove.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hwalee <hwalee@student.42gyeongsan.kr      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/30 13:56:06 by hwalee            #+#    #+#             */
-/*   Updated: 2026/01/30 13:56:14 by hwalee           ###   ########.fr       */
+/*   Created: 2025/10/18 14:18:02 by hwalee            #+#    #+#             */
+/*   Updated: 2025/11/13 14:33:29 by hwalee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "libft.h"
 
-void    print_type_c(format *tempFormat, va_list ap)
+void	*ft_memmove(void *dest, const void *src, size_t n)
 {
-    char c;
+	unsigned char	*p;
+	unsigned char	*s;
+	unsigned int	i;
 
-    c = (char)va_arg(ap, int);
-
-    if (tempFormat->minus)
-    {
-        write(1, &c, 1);
-        tempFormat->width--;
-    }
-    while (tempFormat->width--)
-        write(1, " ", 1);
+	p = (unsigned char *)dest;
+	s = (unsigned char *)src;
+	i = 0;
+	if (dest < src)
+	{
+		while (i != n)
+		{
+			p[i] = s[i];
+			i++;
+		}
+	}
+	else if (dest > src)
+	{
+		while (i != n)
+		{
+			p[n - 1] = s[n - 1];
+			n--;
+		}
+	}
+	return (dest);
 }

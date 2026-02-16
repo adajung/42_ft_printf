@@ -1,28 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print_type_c.c                                     :+:      :+:    :+:   */
+/*   ft_memcpy.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hwalee <hwalee@student.42gyeongsan.kr      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/30 13:56:06 by hwalee            #+#    #+#             */
-/*   Updated: 2026/01/30 13:56:14 by hwalee           ###   ########.fr       */
+/*   Created: 2025/10/18 13:30:58 by hwalee            #+#    #+#             */
+/*   Updated: 2025/11/12 19:28:10 by hwalee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "libft.h"
 
-void    print_type_c(format *tempFormat, va_list ap)
+void	*ft_memcpy(void *dest, const void *src, size_t n)
 {
-    char c;
+	unsigned char	i;
+	unsigned char	*unsigned_dst;
+	unsigned char	*unsigned_src;
 
-    c = (char)va_arg(ap, int);
-
-    if (tempFormat->minus)
-    {
-        write(1, &c, 1);
-        tempFormat->width--;
-    }
-    while (tempFormat->width--)
-        write(1, " ", 1);
+	i = 0;
+	if (dest == NULL && src == NULL)
+		return (dest);
+	unsigned_dst = (unsigned char *)dest;
+	unsigned_src = (unsigned char *)src;
+	while (i < n)
+	{
+		unsigned_dst[i] = unsigned_src[i];
+		i++;
+	}
+	return (dest);
 }

@@ -14,6 +14,9 @@
 
 int	main()
 {
-	ft_printf("hihi");
+	char c;
+
+	c = 'A';
+	ft_printf("%c", c);
 	return (0);
 }

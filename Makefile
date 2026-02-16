@@ -11,35 +11,44 @@
 # **************************************************************************** #
 
 NAME		= ft_printf.a
+LIBFT_DIR	= ./libft
+LIBFT		= $(LIBFT_DIR)/libft.a
 
 CC		= cc
 RM		= rm -f
-CFLAGS		= -Wall -Wextra -Werror -I. -I./libft
+CFLAGS		= -Wall -Wextra -Werror -I$(LIBFT_DIR) -I.
+AR		=	ar rcs
 
-LDFLAGS = -L./libft
-LDLIBS = -lft
-%.o:	%.c ft_printf.h
-	$(CC) $(CFLAGS) -c $< -o $@
-
-SRCS		=	ft_printf.c print_type_c.c print_type_d.c print_type_i.c\
-			print_type_p.c print_type_s.c print_type_u.c print_type_x.c\
-			print_type_X.c
+SRCS		=	ft_printf.c \
+				print_type_c.c \
+				print_type_d.c \
+				print_type_i.c \
+				print_type_p.c \
+				print_type_s.c \
+				print_type_u.c \
+				print_type_x.c \
+				print_type_X.c
 
 OBJS		= $(SRCS:.c=.o)
 
-all:		$(NAME)
+all:		$(NAME)	
 
 $(NAME):	$(OBJS)
-		make -C ./libft
-		ar rcs $(NAME) $(OBJS)
+		$(MAKE) bonus -C $(LIBFT_DIR)
+		cp $(LIBFT) $(NAME)
+		$(AR) $(NAME) $(OBJS)
+
+%.o: %.c
+		$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
 		$(RM) $(OBJS)
+		$(MAKE) -C $(LIBFT_DIR) clean
 
 fclean:		clean
 		$(RM) $(NAME)
-		make -C ./libft fclean
+		$(MAKE) -C $(LIBFT_DIR) fclean
 
-re:		fclean $(NAME)
+re:		fclean all
 
 .PHONY:		all clean fclean re

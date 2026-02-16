@@ -10,4 +10,19 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "ft_printf.h"
 
+void    print_type_u(format *tempFormat, va_list ap)
+{
+    char c;
+
+    c = (char)va_arg(ap, int);
+
+    if (tempFormat->minus)
+    {
+        write(1, &c, 1);
+        tempFormat->width--;
+    }
+    while (tempFormat->width--)
+        write(1, " ", 1);
+}

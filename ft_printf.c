@@ -12,8 +12,6 @@
 
 #include "ft_printf.h"
 
-#include <stdio.h>
-
 int     power_to_dec(int);
 void    init_format(format *);
 int is_str_valid(const char *);
@@ -68,7 +66,8 @@ int is_str_valid(const char *str)
             if (temp == NULL)
                 return (0);
         }
-        str++;
+        else if (*str)
+            str++;
     }
     return (1);
 }
