@@ -17,6 +17,6 @@ int	main()
 	char c;
 
 	c = 'A';
-	ft_printf("%c", c);
+	ft_printf("hihi%chihi", c);
 	return (0);
 }

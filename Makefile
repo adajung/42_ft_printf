@@ -51,4 +51,9 @@ fclean:		clean
 
 re:		fclean all
 
-.PHONY:		all clean fclean re
+debug:
+	$(MAKE) fclean
+	$(MAKE) -C $(LIBFT_DIR) CFLAGS="-Wall -Wextra -Werror -g -I."
+	$(MAKE) all CFLAGS="-Wall -Wextra -Werror -g -I. -I$(LIBFT_DIR)"
+
+.PHONY:		all clean fclean re debug

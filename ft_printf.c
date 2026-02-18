@@ -12,28 +12,12 @@
 
 #include "ft_printf.h"
 
-int     power_to_dec(int);
 void    init_format(format *);
 int is_str_valid(const char *);
 const char    *fill_format(const char *, format *, const char *);
 const char    *print_format(const char *, format *, va_list);
 void    print_str(const char *, const char *, va_list);
 int ft_printf(const char *, ...);
-
-int     power_to_dec(int power)
-{
-    int temp;
-
-    if (power == 0)
-        return (1);
-    temp = 1;
-    while (power)
-    {
-        temp *= 10;
-        power--;
-    }
-    return (temp);
-}
 
 void    init_format(format *tempFormat)
 {
@@ -42,7 +26,6 @@ void    init_format(format *tempFormat)
     tempFormat->plus = 0;
     tempFormat->minus = 0;
     tempFormat->zero = 0;
-    tempFormat->dot = 0;
     tempFormat->width = 0;
     tempFormat->precision = 0;
     tempFormat->type = 0;
@@ -60,59 +43,46 @@ int is_str_valid(const char *str)
         init_format(&checkFormat);
         while ((*str) && (*str != '%'))
             str++;
-        if (*str == '%')
+        if (!*str)
+            return (1);
+        else if (*str == '%')
         {
-            temp = fill_format(str, &checkFormat, "cspdiuxX");
+            temp = fill_format(str++, &checkFormat, "cspdiuxX");
             if (temp == NULL)
                 return (0);
         }
-        else if (*str)
-            str++;
     }
     return (1);
 }
 
 const char    *fill_format(const char *head, format *tempFormat, const char *typeSet)
 {
-    int i;
-
-    if (*(head + 1) == '%')
-        head += 2;
-    while ((*head != '\0') || (*head != '%'))
+    if (*(head++ + 1) == '%')
+        return (head + 1);
+    while (*head == '#' || *head == ' ' || *head == '+' || 
+        *head == '-' || *head == '0')
     {
         if (*head == '#')
             tempFormat->hash = 1;
-        else if (*head == ' ')
+        if (*head == ' ')
             tempFormat->space = 1;
-        else if (*head == '+')
+        if (*head == '+')
             tempFormat->plus = 1;
-        else if (*head == '-')
+        if (*head == '-')
             tempFormat->minus = 1;
-        else if (*head == '0')
-        {
-            if (*(head + 1) != '.')
-                tempFormat->zero = 1;
-        }
-        else if (*head == '.')
-        {
-            if (tempFormat->dot == 1)
-                return (0);
-            tempFormat->dot = 1;
-            i = 0;
-            while (ft_isdigit(*(head - ++i)))
-                tempFormat->width += (*(head - i) - '0') * power_to_dec(i - 1);
-            i = 0;
-            while (ft_isdigit(*(head + ++i)))
-                tempFormat->precision = 10 * tempFormat->precision + (*(head - i) - '0');
-            head += i;
-        }
-        else if (*ft_strchr(typeSet, *head))
-            return (tempFormat->type = *head, ++head);
-        else
-            return (0);
-        head++;
+        if (*(head++) == '0')
+            tempFormat->zero = 1;
     }
-    return (head);
+    if (tempFormat->minus == 1)
+        tempFormat->zero = 0;
+    while (ft_isdigit(*head))
+        tempFormat->width = 10 * tempFormat->width + (*(head++) - '0');
+    if (*head == '.')
+        while (ft_isdigit(*(++head)))
+            tempFormat->precision = 10 * tempFormat->precision + (*head - '0');
+    if (ft_strchr(typeSet, *head))
+        return (tempFormat->type = *head, ++head);
+    return (0);
 }
 
 const char    *print_format(const char *head, format *tempFormat, va_list ap)
@@ -150,10 +120,13 @@ void    print_str(const char *str, const char *head, va_list ap)
     {
         init_format(&tempFormat);
         if (*head == '%')
+        {
             head = print_format(head, &tempFormat, ap);
+            str = head;
+        }
         else
         {
-            while ((*head != '%') || (*head != '\0'))
+            while ((*head != '%') && (*head != '\0'))
                 head++;
             if (head != str)
             {

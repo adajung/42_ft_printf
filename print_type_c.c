@@ -19,10 +19,9 @@ void    print_type_c(format *tempFormat, va_list ap)
     c = (char)va_arg(ap, int);
 
     if (tempFormat->minus)
-    {
         write(1, &c, 1);
-        tempFormat->width--;
-    }
-    while (tempFormat->width--)
+    while (--tempFormat->width > 0)
         write(1, " ", 1);
+    if (!tempFormat->minus)
+        write(1, &c, 1);
 }

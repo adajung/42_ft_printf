@@ -22,7 +22,6 @@ typedef struct format {
     int plus;
     int minus;
     int zero;
-    int dot;
     int width;
     int precision;
     char type;
