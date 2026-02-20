@@ -12,13 +12,17 @@
 
 #include "ft_printf.h"
 
-void	print_type_s(format *tempFormat, va_list ap)
+int	print_type_s(format *tempFormat, va_list ap)
 {
 	char	*str;
+	int		len;
 
 	(void)tempFormat;
 	str = va_arg(ap, char *);
 	if (str == NULL)
 		str = "(null)";
-	write(1, str, ft_strlen(str));
+	len = (int)ft_strlen(str);
+	if (write(1, str, len) == -1)
+		return (-1);
+	return (len);
 }

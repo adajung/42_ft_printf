@@ -12,11 +12,13 @@
 
 #include "ft_printf.h"
 
-void	print_type_c(format *tempFormat, va_list ap)
+int	print_type_c(format *tempFormat, va_list ap)
 {
 	char	c;
 
 	(void)tempFormat;
 	c = (char)va_arg(ap, int);
-	write(1, &c, 1);
+	if (write(1, &c, 1) == -1)
+		return (-1);
+	return (1);
 }

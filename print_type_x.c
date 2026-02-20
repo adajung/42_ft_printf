@@ -12,18 +12,28 @@
 
 #include "ft_printf.h"
 
-static void	put_hex(unsigned int n, const char *base)
+static int	put_hex(unsigned int n, const char *base)
 {
+	int	ret;
+
 	if (n >= 16)
-		put_hex(n / 16, base);
-	write(1, &base[n % 16], 1);
+	{
+		ret = put_hex(n / 16, base);
+		if (ret < 0)
+			return (-1);
+	}
+	else
+		ret = 0;
+	if (write(1, &base[n % 16], 1) == -1)
+		return (-1);
+	return (ret + 1);
 }
 
-void	print_type_x(format *tempFormat, va_list ap)
+int	print_type_x(format *tempFormat, va_list ap)
 {
 	unsigned int	value;
 
 	(void)tempFormat;
 	value = va_arg(ap, unsigned int);
-	put_hex(value, "0123456789abcdef");
+	return (put_hex(value, "0123456789abcdef"));
 }

@@ -12,8 +12,32 @@
 
 #include "ft_printf.h"
 
-void	print_type_d(format *tempFormat, va_list ap)
+static int	get_num_len(int n)
 {
+	long	nb;
+	int		len;
+
+	nb = (long)n;
+	len = 1;
+	if (nb < 0)
+	{
+		len++;
+		nb = -nb;
+	}
+	while (nb >= 10)
+	{
+		nb /= 10;
+		len++;
+	}
+	return (len);
+}
+
+int	print_type_d(format *tempFormat, va_list ap)
+{
+	int	n;
+
 	(void)tempFormat;
-	ft_putnbr_fd(va_arg(ap, int), 1);
+	n = va_arg(ap, int);
+	ft_putnbr_fd(n, 1);
+	return (get_num_len(n));
 }

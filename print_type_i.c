@@ -12,8 +12,7 @@
 
 #include "ft_printf.h"
 
-void	print_type_i(format *tempFormat, va_list ap)
+int	print_type_i(format *tempFormat, va_list ap)
 {
-	(void)tempFormat;
-	ft_putnbr_fd(va_arg(ap, int), 1);
+	return (print_type_d(tempFormat, ap));
 }

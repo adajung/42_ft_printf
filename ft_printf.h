@@ -26,16 +26,16 @@ typedef struct format
 	int		width;
 	int		precision;
 	char	type;
-}	format;
+} 	format;
 
-void	print_type_c(format *tempFormat, va_list ap);
-void	print_type_s(format *tempFormat, va_list ap);
-void	print_type_p(format *tempFormat, va_list ap);
-void	print_type_d(format *tempFormat, va_list ap);
-void	print_type_i(format *tempFormat, va_list ap);
-void	print_type_u(format *tempFormat, va_list ap);
-void	print_type_x(format *tempFormat, va_list ap);
-void	print_type_X(format *tempFormat, va_list ap);
+int		print_type_c(format *tempFormat, va_list ap);
+int		print_type_s(format *tempFormat, va_list ap);
+int		print_type_p(format *tempFormat, va_list ap);
+int		print_type_d(format *tempFormat, va_list ap);
+int		print_type_i(format *tempFormat, va_list ap);
+int		print_type_u(format *tempFormat, va_list ap);
+int		print_type_x(format *tempFormat, va_list ap);
+int		print_type_X(format *tempFormat, va_list ap);
 int		ft_printf(const char *, ...);
 
 #endif

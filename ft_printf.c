@@ -15,8 +15,8 @@
 void    init_format(format *);
 int is_str_valid(const char *);
 const char    *fill_format(const char *, format *, const char *);
-const char    *print_format(const char *, format *, va_list);
-void    print_str(const char *, const char *, va_list);
+const char    *print_format(const char *, format *, va_list, int *);
+int    print_str(const char *, const char *, va_list);
 int ft_printf(const char *, ...);
 
 void    init_format(format *tempFormat)
@@ -50,12 +50,13 @@ int is_str_valid(const char *str)
             temp = fill_format(str++, &checkFormat, "cspdiuxX");
             if (temp == NULL)
                 return (0);
+            str = temp;
         }
     }
     return (1);
 }
 
-const char    *fill_format(const char *head, format *tempFormat, const char *typeSet)
+const char    *fill_format(const char *head, format *tf, const char *typeSet)
 {
     if (*(head++ + 1) == '%')
         return (head + 1);
@@ -63,68 +64,62 @@ const char    *fill_format(const char *head, format *tempFormat, const char *typ
         *head == '-' || *head == '0')
     {
         if (*head == '#')
-            tempFormat->hash = 1;
+            tf->hash = 1;
         if (*head == ' ')
-            tempFormat->space = 1;
+            tf->space = 1;
         if (*head == '+')
-            tempFormat->plus = 1;
+            tf->plus = 1;
         if (*head == '-')
-            tempFormat->minus = 1;
+            tf->minus = 1;
         if (*(head++) == '0')
-            tempFormat->zero = 1;
+            tf->zero = 1;
     }
-    if (tempFormat->minus == 1)
-        tempFormat->zero = 0;
-    while (ft_isdigit(*head))
-        tempFormat->width = 10 * tempFormat->width + (*(head++) - '0');
-    if (*head == '.')
-    {
-        tempFormat->precision = 0;
-        while (ft_isdigit(*(++head)))
-            tempFormat->precision = 10 * tempFormat->precision + (*head - '0');
-    }
+    if (tf->minus == 1)
+        tf->zero = 0;
     if (ft_strchr(typeSet, *head))
-        return (tempFormat->type = *head, ++head);
+        return (tf->type = *head, ++head);
     return (0);
 }
 
-const char    *print_format(const char *head, format *tempFormat, va_list ap)
+const char    *print_format(const char *head, format *tf, va_list ap, int *l)
 {
-    head = fill_format(head, tempFormat, "cspdiuxX");
+    head = fill_format(head, tf, "cspdiuxX");
     if (*(head - 1) == '%')
-        return (write(1, head - 1, 1), head);
-    else
-    {
-        if (tempFormat->type == 'c')
-            return (print_type_c(tempFormat, ap), head);
-        else if (tempFormat->type == 's')
-            return (print_type_s(tempFormat, ap), head);
-        else if (tempFormat->type == 'p')
-            return (print_type_p(tempFormat, ap), head);
-        else if (tempFormat->type == 'd')
-            return (print_type_d(tempFormat, ap), head);
-        else if (tempFormat->type == 'i')
-            return (print_type_i(tempFormat, ap), head);
-        else if (tempFormat->type == 'u')
-            return (print_type_u(tempFormat, ap), head);
-        else if (tempFormat->type == 'x')
-            return (print_type_x(tempFormat, ap), head);
-        else if (tempFormat->type == 'X')
-            return (print_type_X(tempFormat, ap), head);
+    {   
+        write(1, head - 1, 1);
+        return (*l += 1, head);
     }
+    if (tf->type == 'c')
+        return (*l += print_type_c(tf, ap), head);
+    else if (tf->type == 's')
+        return (*l += print_type_s(tf, ap), head);
+    else if (tf->type == 'p')
+        return (*l += print_type_p(tf, ap), head);
+    else if (tf->type == 'd')
+        return (*l += print_type_d(tf, ap), head);
+    else if (tf->type == 'i')
+        return (*l += print_type_i(tf, ap), head);
+    else if (tf->type == 'u')
+        return (*l += print_type_u(tf, ap), head);
+    else if (tf->type == 'x')
+        return (*l += print_type_x(tf, ap), head);
+    else if (tf->type == 'X')
+        return (*l += print_type_X(tf, ap), head);
     return (0);
 }
 
-void    print_str(const char *str, const char *head, va_list ap)
+int    print_str(const char *str, const char *head, va_list ap)
 {
     format tempFormat;
+    int     l;
     
+    l = 0;
     while (*head)
     {
         init_format(&tempFormat);
         if (*head == '%')
         {
-            head = print_format(head, &tempFormat, ap);
+            head = print_format(head, &tempFormat, ap, &l);
             str = head;
         }
         else
@@ -134,31 +129,30 @@ void    print_str(const char *str, const char *head, va_list ap)
             if (head != str)
             {
                 write(1, str, head - str);
+                l += head - str;
                 str = head;
             }
         }
     }
+    return (l);
 }
 
 int ft_printf(const char *str, ...)
 {
     va_list ap;
     char    *head;
-    int     check;
+    int     temp;
     
-    // 1. 포맷검사
-    check = is_str_valid(str);
-    if (check == 0)
+    temp = is_str_valid(str);
+    if (temp == 0)
         return (0);
 
-    // 2. va_start
     va_start(ap, str);
 
-    // 3. %갯수만큼 반복하여 va_arg 호출
     head = (char *)str;
-    print_str(str, head, ap);
+    temp = print_str(str, head, ap);
 
     va_end(ap);
 
-    return (0);
+    return (temp);
 }
