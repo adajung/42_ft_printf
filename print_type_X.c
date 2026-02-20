@@ -6,23 +6,24 @@
 /*   By: hwalee <hwalee@student.42gyeongsan.kr      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 15:35:24 by hwalee            #+#    #+#             */
-/*   Updated: 2026/01/30 13:57:11 by hwalee           ###   ########.fr       */
+/*   Updated: 2026/02/20 12:40:00 by hwalee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-void    print_type_X(format *tempFormat, va_list ap)
+static void	put_hex(unsigned int n, const char *base)
 {
-    char c;
+	if (n >= 16)
+		put_hex(n / 16, base);
+	write(1, &base[n % 16], 1);
+}
 
-    c = (char)va_arg(ap, int);
+void	print_type_X(format *tempFormat, va_list ap)
+{
+	unsigned int	value;
 
-    if (tempFormat->minus)
-    {
-        write(1, &c, 1);
-        tempFormat->width--;
-    }
-    while (tempFormat->width--)
-        write(1, " ", 1);
+	(void)tempFormat;
+	value = va_arg(ap, unsigned int);
+	put_hex(value, "0123456789ABCDEF");
 }

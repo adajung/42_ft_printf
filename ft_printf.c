@@ -27,7 +27,7 @@ void    init_format(format *tempFormat)
     tempFormat->minus = 0;
     tempFormat->zero = 0;
     tempFormat->width = 0;
-    tempFormat->precision = 0;
+    tempFormat->precision = -1;
     tempFormat->type = 0;
 }
 
@@ -78,8 +78,11 @@ const char    *fill_format(const char *head, format *tempFormat, const char *typ
     while (ft_isdigit(*head))
         tempFormat->width = 10 * tempFormat->width + (*(head++) - '0');
     if (*head == '.')
+    {
+        tempFormat->precision = 0;
         while (ft_isdigit(*(++head)))
             tempFormat->precision = 10 * tempFormat->precision + (*head - '0');
+    }
     if (ft_strchr(typeSet, *head))
         return (tempFormat->type = *head, ++head);
     return (0);

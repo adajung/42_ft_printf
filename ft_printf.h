@@ -14,27 +14,28 @@
 # define FT_PRINTF_H
 
 # include "libft.h"
-#include <stdarg.h>
+# include <stdarg.h>
 
-typedef struct format {
-    int hash;
-    int space;
-    int plus;
-    int minus;
-    int zero;
-    int width;
-    int precision;
-    char type;
-} format;
+typedef struct format
+{
+	int		hash;
+	int		space;
+	int		plus;
+	int		minus;
+	int		zero;
+	int		width;
+	int		precision;
+	char	type;
+}	format;
 
-void print_type_c(format *tempFormat, va_list ap);
-void print_type_s(format *tempFormat, va_list ap);
-void print_type_p(format *tempFormat, va_list ap);
-void print_type_d(format *tempFormat, va_list ap);
-void print_type_i(format *tempFormat, va_list ap);
-void print_type_u(format *tempFormat, va_list ap);
-void print_type_x(format *tempFormat, va_list ap);
-void print_type_X(format *tempFormat, va_list ap);
-int ft_printf(const char *, ...);
+void	print_type_c(format *tempFormat, va_list ap);
+void	print_type_s(format *tempFormat, va_list ap);
+void	print_type_p(format *tempFormat, va_list ap);
+void	print_type_d(format *tempFormat, va_list ap);
+void	print_type_i(format *tempFormat, va_list ap);
+void	print_type_u(format *tempFormat, va_list ap);
+void	print_type_x(format *tempFormat, va_list ap);
+void	print_type_X(format *tempFormat, va_list ap);
+int		ft_printf(const char *, ...);
 
 #endif
